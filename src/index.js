@@ -58,7 +58,7 @@ const mainBuilder = (yargs) => {
 require("yargs")
   .version()
   .command(
-    "$0 <input>",
+    "$0 [input] [options]",
     "Create documents (and more) using Pug.",
     mainBuilder,
     main
