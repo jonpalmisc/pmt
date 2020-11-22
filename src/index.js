@@ -4,6 +4,15 @@ const prettier = require("prettier");
 const pug = require("pug");
 
 function main(args) {
+  // Make sure the input path exists.
+  if (!fs.existsSync(args.input)) {
+    console.error(`Could not find input file "${args.input}".`);
+    console.error(
+      "Are you passing an input path explicitly? See --help for more info."
+    );
+    return;
+  }
+
   const input = fs.readFileSync(args.input, { encoding: "utf-8" });
 
   // Render the input to HTML, optionally formatting it.
