@@ -1,9 +1,8 @@
 const fs = require("fs");
 
-const prettier = require("prettier");
-const pug = require("pug");
+const engine = require("./engine");
 
-function main(args) {
+const main = (args) => {
   // Make sure the input path exists.
   if (!fs.existsSync(args.input)) {
     console.error(`Could not find input file "${args.input}".`);
@@ -13,13 +12,7 @@ function main(args) {
     return;
   }
 
-  const input = fs.readFileSync(args.input, { encoding: "utf-8" });
-
-  // Render the input to HTML, optionally formatting it.
-  let html = pug.render(input);
-  if (args.pretty) {
-    html = prettier.format(html, { parser: "html" });
-  }
+  const html = engine.renderFile(args.input, { pretty: args.pretty });
 
   // Configure the output path.
   let outputPath = args.input.replace(".pug", ".html");
@@ -29,9 +22,9 @@ function main(args) {
 
   // Write the output to disk.
   fs.writeFileSync(outputPath, html);
-}
+};
 
-const mainBuilder = (yargs) => {
+const mainCommand = (yargs) => {
   yargs
     .positional("input", {
       describe: "The input file to process",
@@ -60,6 +53,6 @@ require("yargs")
   .command(
     "$0 [input] [options]",
     "Create documents (and more) using Pug.",
-    mainBuilder,
+    mainCommand,
     main
   ).argv;
