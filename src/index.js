@@ -51,6 +51,8 @@ const main = (args) => {
 
 const mainCommand = (yargs) => {
   yargs
+    .alias("h", "help")
+    .alias("v", "version")
     .positional("input", {
       describe: "The input file to process",
       type: "string",
