@@ -15,21 +15,21 @@ const main = (args) => {
 
   const html = engine.renderFile(args.input, { pretty: args.pretty });
 
-  // Write the output (of the correct format) to disk.
-  if (args.pdf) {
-    let outputPath = args.output
-      ? args.output
-      : misc.replaceExt(args.input, ".pdf");
+  // Determine the correct output path depending on whether it was explicitly
+  // provided and what type of output we are producing.
+  let outputPath = args.output
+    ? args.output
+    : misc.replaceExt(args.input, args.pdf ? ".pdf" : ".html");
 
+  // Write the output (of the correct format) to disk. If we are doing PDF
+  // output, write the HTML to a temporary folder to avoid clutter and
+  // unnecessary activity on network/cloud drives.
+  if (args.pdf) {
     let htmlPath = misc.getTempPath(misc.replaceExt(args.input, ".html"));
 
     fs.writeFileSync(htmlPath, html);
     cp.execSync(`${args.backend} ${htmlPath} -o ${outputPath}`);
   } else {
-    let outputPath = args.output
-      ? args.output
-      : misc.replaceExt(args.input, ".html");
-
     fs.writeFileSync(outputPath, html);
   }
 };
