@@ -14,6 +14,7 @@
     "pdt": "src/index.js"
   },
   "dependencies": {
+    "command-exists": "^1.2.9",
     "markdown-it": "^12.0.2",
     "node-sass": "^5.0.0",
     "prettier": "^2.2.0",

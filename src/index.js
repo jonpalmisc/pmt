@@ -3,13 +3,28 @@ const fs = require("fs");
 
 const engine = require("./engine");
 
-const main = (args) => {
-  // Make sure the input path exists.
-  if (!fs.existsSync(args.input)) {
-    console.error(`Could not find input file "${args.input}".`);
-    console.error(
-      "Are you passing an input path explicitly? See --help for more info."
+const commandExists = require("command-exists").sync;
+
+function verifyInput(inputPath) {
+  if (!fs.existsSync(inputPath)) {
+    throw new Error(`Couldn't find input file "${inputPath}".`);
+  }
+}
+
+function verifyBackend(backend) {
+  if (!commandExists(backend)) {
+    throw new Error(
+      `Failed to find backend executable "${backend}". Verify it exists or try a different backend.`
     );
+  }
+}
+
+const main = (args) => {
+  try {
+    verifyInput(args.input);
+    verifyBackend(args.backend);
+  } catch (error) {
+    console.error(error.message);
     return;
   }
 
@@ -24,7 +39,7 @@ const main = (args) => {
     let htmlPath = outputPath.replace(".pdf", ".html");
 
     fs.writeFileSync(htmlPath, html);
-    cp.execSync(`prince ${htmlPath} -o ${outputPath}`);
+    cp.execSync(`${args.backend} ${htmlPath} -o ${outputPath}`);
   } else {
     let outputPath = args.output
       ? args.output
@@ -41,6 +56,12 @@ const mainCommand = (yargs) => {
       type: "string",
       default: "main.pug",
     })
+    .option("backend", {
+      alias: "b",
+      describe: "The HTML to PDF converter to use",
+      default: "prince",
+      type: "string",
+    })
     .option("output", {
       alias: "o",
       desc: "The desired output path",
@@ -48,7 +69,7 @@ const mainCommand = (yargs) => {
     })
     .option("pdf", {
       alias: "p",
-      desc: "Produce a PDF with Prince",
+      desc: "Produce additional PDF output",
       type: "boolean",
     })
     .option("pretty", {
