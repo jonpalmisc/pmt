@@ -1,16 +1,22 @@
 const fs = require("fs");
+const path = require("path");
 
 const filters = require("./filters");
 
 const prettier = require("prettier");
 const pug = require("pug");
 
-const pugOptions = {
-  filters,
-};
+function renderFile(inputPath, opts) {
+  inputPath = path.resolve(inputPath);
 
-function renderFile(path, opts) {
-  const input = fs.readFileSync(path, { encoding: "utf-8" });
+  // Read the input file.
+  const input = fs.readFileSync(inputPath, { encoding: "utf-8" });
+
+  // Set up Pug to include our filters, among other things.
+  const pugOptions = {
+    filename: inputPath,
+    filters,
+  };
 
   // Render the input to HTML, optionally formatting it.
   let html = pug.render(input, pugOptions);
