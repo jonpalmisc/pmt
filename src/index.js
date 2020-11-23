@@ -55,12 +55,12 @@ const mainCommand = (yargs) => {
       alias: "P",
       desc: "Format the output with Prettier",
       type: "boolean",
-    })
-    .option("watch", {
-      alias: "w",
-      desc: "Trigger recompilation when input changes",
-      type: "boolean",
     });
+  // .option("watch", {
+  //   alias: "w",
+  //   desc: "Trigger recompilation when input changes",
+  //   type: "boolean",
+  // });
 };
 
 require("yargs")
