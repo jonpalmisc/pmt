@@ -7,6 +7,9 @@
   "author": "Jon Palmisciano @jonpalmisc",
   "license": "MIT",
   "preferGlobal": true,
+  "scripts": {
+    "pdt": "node src/index.js"
+  },
   "bin": {
     "pdt": "src/index.js"
   },
