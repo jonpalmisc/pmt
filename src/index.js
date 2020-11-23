@@ -1,30 +1,13 @@
 const cp = require("child_process");
 const fs = require("fs");
-const os = require("os");
-const path = require("path");
 
 const engine = require("./engine");
-
-const commandExists = require("command-exists").sync;
-
-function verifyInput(inputPath) {
-  if (!fs.existsSync(inputPath)) {
-    throw new Error(`Couldn't find input file "${inputPath}".`);
-  }
-}
-
-function verifyBackend(backend) {
-  if (!commandExists(backend)) {
-    throw new Error(
-      `Failed to find backend executable "${backend}". Verify it exists or try a different backend.`
-    );
-  }
-}
+const misc = require("./misc");
 
 const main = (args) => {
   try {
-    verifyInput(args.input);
-    verifyBackend(args.backend);
+    misc.verifyFileExists(args.input);
+    misc.verifyCommandExists(args.backend);
   } catch (error) {
     console.error(error.message);
     return;
@@ -36,19 +19,16 @@ const main = (args) => {
   if (args.pdf) {
     let outputPath = args.output
       ? args.output
-      : args.input.replace(".pug", ".pdf");
+      : misc.replaceExt(args.input, ".pdf");
 
-    let htmlPath = path.join(
-      os.tmpdir(),
-      "pdt_build_" + path.basename(args.input.replace(".pug", ".html"))
-    );
+    let htmlPath = misc.getTempPath(misc.replaceExt(args.input, ".html"));
 
     fs.writeFileSync(htmlPath, html);
     cp.execSync(`${args.backend} ${htmlPath} -o ${outputPath}`);
   } else {
     let outputPath = args.output
       ? args.output
-      : args.input.replace(".pug", ".html");
+      : misc.replaceExt(args.input, ".html");
 
     fs.writeFileSync(outputPath, html);
   }
