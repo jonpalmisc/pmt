@@ -15,19 +15,22 @@ const main = (args) => {
 
   const html = engine.renderFile(args.input, { pretty: args.pretty });
 
-  // Configure the output path.
-  let htmlPath = args.input.replace(".pug", ".html");
-  let outputPath = htmlPath.replace(".html", ".pdf");
-  if (args.output) {
-    outputPath = args.output;
-  }
-
-  // Write the output to disk.
-  fs.writeFileSync(htmlPath, html);
-
-  // If PDF output is desired, run the HTML output through Prince.
+  // Write the output (of the correct format) to disk.
   if (args.pdf) {
+    let outputPath = args.output
+      ? args.output
+      : args.input.replace(".pug", ".pdf");
+
+    let htmlPath = outputPath.replace(".pdf", ".html");
+
+    fs.writeFileSync(htmlPath, html);
     cp.execSync(`prince ${htmlPath} -o ${outputPath}`);
+  } else {
+    let outputPath = args.output
+      ? args.output
+      : args.input.replace(".pug", ".html");
+
+    fs.writeFileSync(outputPath, html);
   }
 };
 
