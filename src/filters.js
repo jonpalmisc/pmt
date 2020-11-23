@@ -1,9 +1,9 @@
-const markdownEngine = require("markdown-it");
+const markdown = require("markdown-it");
 
-function markdown(text, opts) {
-  return markdownEngine({ ...opts }).render(text);
+function markdownFilter(text, opts) {
+  return markdown({ ...opts }).render(text);
 }
 
 module.exports = {
-  markdown,
+  markdown: markdownFilter,
 };
