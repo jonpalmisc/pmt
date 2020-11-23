@@ -1,5 +1,7 @@
 const cp = require("child_process");
 const fs = require("fs");
+const os = require("os");
+const path = require("path");
 
 const engine = require("./engine");
 
@@ -36,7 +38,10 @@ const main = (args) => {
       ? args.output
       : args.input.replace(".pug", ".pdf");
 
-    let htmlPath = outputPath.replace(".pdf", ".html");
+    let htmlPath = path.join(
+      os.tmpdir(),
+      "pdt_build_" + path.basename(args.input.replace(".pug", ".html"))
+    );
 
     fs.writeFileSync(htmlPath, html);
     cp.execSync(`${args.backend} ${htmlPath} -o ${outputPath}`);
