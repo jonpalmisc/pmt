@@ -2,6 +2,7 @@ const cp = require("child_process");
 const fs = require("fs");
 
 const engine = require("./engine");
+const debug = require("./debug");
 const misc = require("./misc");
 
 const puppeteer = require("puppeteer");
@@ -12,7 +13,12 @@ const puppeteerConfig = {
 };
 
 async function main(args) {
+  global.pdtDebug = args.debug;
+
+  debug("PDT initialized.");
+
   try {
+    debug("Checking if input file exists...");
     misc.verifyFileExists(args.input);
     // misc.verifyCommandExists(args.backend);
   } catch (error) {
@@ -31,9 +37,12 @@ async function main(args) {
 
   // Get a temporary file path and write our static HTML to it.
   let tempPath = misc.getTempPath(misc.replaceExt(args.input, ".html"));
+
+  debug(`Writing compiled HTML to disk temporarily... (${tempPath})`);
   fs.writeFileSync(tempPath, staticHtml);
 
   // Start a headless browser and create a new page.
+  debug("Initializing headless browser...");
   const browser = await puppeteer.launch(puppeteerConfig);
   const page = await browser.newPage();
 
@@ -48,8 +57,9 @@ async function main(args) {
   if (!args.pdf) {
     const finalHtml = await page.content();
 
-    browser.close();
+    debug("Closing browser and saving hydrated HTML...");
     fs.writeFileSync(outputPath, finalHtml);
+    browser.close();
     return;
   }
 
@@ -60,8 +70,11 @@ async function main(args) {
   }
 
   // Remove temporary HTML and close the browser.
+  debug(`Removing temporary HTML file... (${tempPath})`);
   fs.unlinkSync(tempPath);
   browser.close();
+
+  debug("Done!");
 }
 
 const mainCommand = (yargs) => {
@@ -79,6 +92,11 @@ const mainCommand = (yargs) => {
     //   default: "internal",
     //   type: "string",
     // })
+    .option("debug", {
+      alias: "D",
+      desc: "Enable debug output",
+      type: "boolean",
+    })
     .option("output", {
       alias: "o",
       desc: "The desired output path",

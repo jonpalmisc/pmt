@@ -1,6 +1,7 @@
 const fs = require("fs");
 const path = require("path");
 
+const debug = require("./debug");
 const filters = require("./filters");
 
 const prettier = require("prettier");
@@ -10,6 +11,7 @@ function renderFile(inputPath, opts) {
   inputPath = path.resolve(inputPath);
 
   // Read the input file.
+  debug("Reading input...");
   const input = fs.readFileSync(inputPath, { encoding: "utf-8" });
 
   // Set up Pug to include our filters, among other things.
@@ -19,8 +21,10 @@ function renderFile(inputPath, opts) {
   };
 
   // Render the input to HTML, optionally formatting it.
+  debug("Compiling...");
   let html = pug.render(input, pugOptions);
   if (opts.pretty) {
+    debug("Formatting output...");
     html = prettier.format(html, { parser: "html" });
   }
 
@@ -29,6 +33,8 @@ function renderFile(inputPath, opts) {
 
 // This is cursed.
 async function waitForIdle(page, maxDuration, maxRequests = 0) {
+  debug("Waiting for idle...");
+
   page.on("request", requestStarted);
   page.on("requestfinished", requestFinished);
   page.on("requestfailed", requestFinished);
@@ -72,6 +78,8 @@ async function waitForIdle(page, maxDuration, maxRequests = 0) {
 }
 
 async function hydrateFile(page, filePath) {
+  debug("Hydrating static HTML...");
+
   await page.goto("file:" + filePath, {
     waitUntil: ["load", "domcontentloaded"],
     timeout: 30 * 1000,
@@ -81,6 +89,7 @@ async function hydrateFile(page, filePath) {
 }
 
 async function makePdfInternal(page, outputPath) {
+  debug("Creating PDF via Puppeteer...");
   await page.pdf({
     path: outputPath,
     displayHeaderFooter: false,
