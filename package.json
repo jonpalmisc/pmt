@@ -20,6 +20,7 @@
     "node-sass": "^5.0.0",
     "prettier": "^2.2.0",
     "pug": "^3.0.0",
+    "puppeteer": "^5.5.0",
     "yargs": "^16.1.1"
   },
   "devDependencies": {

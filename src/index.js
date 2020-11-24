@@ -4,7 +4,14 @@ const fs = require("fs");
 const engine = require("./engine");
 const misc = require("./misc");
 
-const main = (args) => {
+const puppeteer = require("puppeteer");
+
+const puppeteerConfig = {
+  headless: true,
+  args: ["--disable-translate", "--disable-extensions", "--disable-sync"],
+};
+
+async function main(args) {
   try {
     misc.verifyFileExists(args.input);
     misc.verifyCommandExists(args.backend);
@@ -22,18 +29,39 @@ const main = (args) => {
     ? args.output
     : misc.replaceExt(args.input, args.pdf ? ".pdf" : ".html");
 
-  // Write the output (of the correct format) to disk. If we are doing PDF
-  // output, write the HTML to a temporary folder to avoid clutter and
-  // unnecessary activity on network/cloud drives.
-  if (args.pdf) {
-    let htmlPath = misc.getTempPath(misc.replaceExt(args.input, ".html"));
+  let tempPath = misc.getTempPath(misc.replaceExt(args.input, ".html"));
 
-    fs.writeFileSync(htmlPath, html);
-    cp.execSync(`${args.backend} ${htmlPath} -o ${outputPath}`);
-  } else {
-    fs.writeFileSync(outputPath, html);
+  fs.writeFileSync(tempPath, html);
+
+  const browser = await puppeteer.launch(puppeteerConfig);
+  const page = await browser.newPage();
+
+  page
+    .on("pageerror", (error) => {
+      console.error("PAGE ERROR: " + error.message);
+    })
+    .on("error", (error) => {
+      console.error("ERROR: " + error.message);
+    });
+
+  try {
+    await page.goto("file:" + tempPath, {
+      waitUntil: ["load", "domcontentloaded"],
+      timeout: 30 * 1000,
+    });
+  } catch (error) {
+    console.error(error);
   }
-};
+
+  // await waitForNetworkIdle(page, 200);
+
+  const finalHtml = await page.content();
+
+  browser.close();
+
+  // TODO: Re-add PDF support.
+  fs.writeFileSync(outputPath, finalHtml);
+}
 
 const mainCommand = (yargs) => {
   yargs
@@ -73,5 +101,7 @@ require("yargs")
     "$0 [input] [options]",
     "Create documents (and more) using Pug.",
     mainCommand,
-    main
+    async (args) => {
+      await main(args);
+    }
   ).argv;
