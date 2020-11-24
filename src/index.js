@@ -59,6 +59,8 @@ async function main(args) {
     console.error("Error: " + error.message);
   }
 
+  // Remove temporary HTML and close the browser.
+  fs.unlinkSync(tempPath);
   browser.close();
 }
 
