@@ -16,7 +16,7 @@ async function main(args) {
     misc.verifyFileExists(args.input);
     // misc.verifyCommandExists(args.backend);
   } catch (error) {
-    console.error(error.message);
+    console.error("Error: " + error.message);
     return;
   }
 
@@ -41,7 +41,7 @@ async function main(args) {
   try {
     await engine.hydrateFile(page, tempPath);
   } catch (error) {
-    console.error(error);
+    console.error("Error: " + error.message);
     return;
   }
 
