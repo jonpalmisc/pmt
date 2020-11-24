@@ -13,7 +13,8 @@ const main = (args) => {
     return;
   }
 
-  const html = engine.renderFile(args.input, { pretty: true });
+  // Render the input to HTML; format it if HTML is our output format.
+  const html = engine.renderFile(args.input, { pretty: !args.pdf });
 
   // Determine the correct output path depending on whether it was explicitly
   // provided and what type of output we are producing.
