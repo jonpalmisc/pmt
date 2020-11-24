@@ -21,7 +21,7 @@ async function main(args) {
   }
 
   // Render the input to HTML; format it if HTML is our output format.
-  const html = engine.renderFile(args.input, { pretty: !args.pdf });
+  const staticHtml = engine.renderFile(args.input, { pretty: !args.pdf });
 
   // Determine the correct output path depending on whether it was explicitly
   // provided and what type of output we are producing.
@@ -29,37 +29,28 @@ async function main(args) {
     ? args.output
     : misc.replaceExt(args.input, args.pdf ? ".pdf" : ".html");
 
+  // Get a temporary file path and write our static HTML to it.
   let tempPath = misc.getTempPath(misc.replaceExt(args.input, ".html"));
+  fs.writeFileSync(tempPath, staticHtml);
 
-  fs.writeFileSync(tempPath, html);
-
+  // Start a headless browser and create a new page.
   const browser = await puppeteer.launch(puppeteerConfig);
   const page = await browser.newPage();
 
-  page
-    .on("pageerror", (error) => {
-      console.error("PAGE ERROR: " + error.message);
-    })
-    .on("error", (error) => {
-      console.error("ERROR: " + error.message);
-    });
-
+  // Attempt to load the static HTML into the page and hydrate it.
   try {
-    await page.goto("file:" + tempPath, {
-      waitUntil: ["load", "domcontentloaded"],
-      timeout: 30 * 1000,
-    });
+    await engine.hydrateFile(page, tempPath);
   } catch (error) {
     console.error(error);
+    return;
   }
-
-  // await waitForNetworkIdle(page, 200);
 
   const finalHtml = await page.content();
 
   browser.close();
 
   // TODO: Re-add PDF support.
+  // Write our hydrated HTML to disk.
   fs.writeFileSync(outputPath, finalHtml);
 }
 
