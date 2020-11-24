@@ -14,14 +14,14 @@ const puppeteerConfig = {
 async function main(args) {
   try {
     misc.verifyFileExists(args.input);
-    misc.verifyCommandExists(args.backend);
+    // misc.verifyCommandExists(args.backend);
   } catch (error) {
     console.error(error.message);
     return;
   }
 
   // Render the input to HTML; format it if HTML is our output format.
-  const staticHtml = engine.renderFile(args.input, { pretty: !args.pdf });
+  const staticHtml = engine.renderFile(args.input, { pretty: false });
 
   // Determine the correct output path depending on whether it was explicitly
   // provided and what type of output we are producing.
@@ -54,7 +54,7 @@ async function main(args) {
   }
 
   try {
-    await engine.makePdf(page, outputPath, args.backend);
+    await engine.makePdf(page, outputPath, "internal");
   } catch (error) {
     console.error("Error: " + error.message);
   }
@@ -71,12 +71,12 @@ const mainCommand = (yargs) => {
       type: "string",
       default: "main.pug",
     })
-    .option("backend", {
-      alias: "b",
-      describe: "The HTML to PDF converter to use",
-      default: "internal",
-      type: "string",
-    })
+    // .option("backend", {
+    //   alias: "b",
+    //   describe: "The HTML to PDF converter to use",
+    //   default: "internal",
+    //   type: "string",
+    // })
     .option("output", {
       alias: "o",
       desc: "The desired output path",
