@@ -38,7 +38,7 @@ async function waitForIdle(page, maxDuration, maxRequests = 0) {
   let resolve;
   const promise = new Promise((r) => (resolve = r));
 
-  const timeout = setTimeout(timeoutDone, maxDuration);
+  let timeout = setTimeout(timeoutDone, maxDuration);
 
   return promise;
 
