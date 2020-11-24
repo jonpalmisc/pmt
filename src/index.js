@@ -13,7 +13,7 @@ const main = (args) => {
     return;
   }
 
-  const html = engine.renderFile(args.input, { pretty: args.pretty });
+  const html = engine.renderFile(args.input, { pretty: true });
 
   // Determine the correct output path depending on whether it was explicitly
   // provided and what type of output we are producing.
@@ -57,11 +57,6 @@ const mainCommand = (yargs) => {
     .option("pdf", {
       alias: "p",
       desc: "Produce additional PDF output",
-      type: "boolean",
-    })
-    .option("pretty", {
-      alias: "P",
-      desc: "Format the output with Prettier",
       type: "boolean",
     });
   // .option("watch", {
