@@ -80,4 +80,20 @@ async function hydrateFile(page, filePath) {
   await waitForIdle(page, 200);
 }
 
-module.exports = { renderFile, hydrateFile };
+async function makePdfInternal(page, outputPath) {
+  await page.pdf({
+    path: outputPath,
+    displayHeaderFooter: false,
+    printBackground: true,
+  });
+}
+
+async function makePdf(page, outputPath, backend) {
+  if (backend == "internal") {
+    await makePdfInternal(page, outputPath);
+  } else {
+    throw new Error(`Backend "${backend}" is not supported.`);
+  }
+}
+
+module.exports = { makePdf, renderFile, hydrateFile };

@@ -21,7 +21,7 @@ function verifyFileExists(inputPath) {
 }
 
 function verifyCommandExists(backend) {
-  if (!commandExists(backend)) {
+  if (!commandExists(backend) && backend !== "internal") {
     throw new Error(
       `Failed to find backend executable "${backend}". Verify it exists or try a different backend.`
     );

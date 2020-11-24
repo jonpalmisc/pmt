@@ -45,13 +45,21 @@ async function main(args) {
     return;
   }
 
-  const finalHtml = await page.content();
+  if (!args.pdf) {
+    const finalHtml = await page.content();
+
+    browser.close();
+    fs.writeFileSync(outputPath, finalHtml);
+    return;
+  }
+
+  try {
+    await engine.makePdf(page, outputPath, args.backend);
+  } catch (error) {
+    console.error("Error: " + error.message);
+  }
 
   browser.close();
-
-  // TODO: Re-add PDF support.
-  // Write our hydrated HTML to disk.
-  fs.writeFileSync(outputPath, finalHtml);
 }
 
 const mainCommand = (yargs) => {
@@ -66,7 +74,7 @@ const mainCommand = (yargs) => {
     .option("backend", {
       alias: "b",
       describe: "The HTML to PDF converter to use",
-      default: "prince",
+      default: "internal",
       type: "string",
     })
     .option("output", {
