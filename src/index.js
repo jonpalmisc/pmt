@@ -115,6 +115,9 @@ const mainCommand = (yargs) => {
 };
 
 require("yargs")
+  .parserConfiguration({
+    "short-option-groups": true,
+  })
   .version()
   .command(
     "$0 [input] [options]",
