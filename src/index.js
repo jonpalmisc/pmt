@@ -33,7 +33,7 @@ async function main(args) {
   // provided and what type of output we are producing.
   let outputPath = args.output
     ? args.output
-    : misc.replaceExt(args.input, args.pdf ? ".pdf" : ".html");
+    : misc.replaceExt(args.input, args.html ? ".html" : ".pdf");
 
   // Get a temporary file path and write our static HTML to it.
   let tempPath = misc.getTempPath(misc.replaceExt(args.input, ".html"));
@@ -54,7 +54,7 @@ async function main(args) {
     return;
   }
 
-  if (!args.pdf) {
+  if (args.html) {
     const finalHtml = await page.content();
 
     debug("Closing browser and saving hydrated HTML...");
@@ -102,9 +102,9 @@ const mainCommand = (yargs) => {
       desc: "The desired output path",
       type: "string",
     })
-    .option("pdf", {
-      alias: "p",
-      desc: "Produce additional PDF output",
+    .option("html", {
+      alias: "x",
+      desc: "Produce HTML for use with another program",
       type: "boolean",
     });
   // .option("watch", {
