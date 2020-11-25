@@ -23,10 +23,29 @@ async function main(args) {
     return;
   }
 
-  // Render the input to HTML; format it if HTML is our output format.
-  const staticHtml = await engine.renderFile(args.input, {
-    plugins: args.plugins,
-  });
+  // Attempt to dender the input to HTML; show errors and stop if needed.
+  let staticHtml;
+  try {
+    staticHtml = await engine.renderFile(args.input, {
+      plugins: args.plugins,
+    });
+  } catch (error) {
+    // Handle Pug-related errors a little more gracefully.
+    if (error.code && error.code.startsWith("PUG")) {
+      console.error(
+        `Error: Failed to compile Pug. (${error.msg}, ${error.filename}:${error.line})`
+      );
+
+      // Show hint for missing filter errors.
+      if (error.code == "PUG:UNKNOWN_FILTER") {
+        console.error("Hint: Did you forget to enable a plugin?");
+      }
+    } else {
+      console.error("Error: " + error.message);
+    }
+
+    return;
+  }
 
   // Determine the correct output path depending on whether it was explicitly
   // provided and what type of output we are producing.
