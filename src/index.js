@@ -17,12 +17,9 @@ async function main(args) {
 
   debug("PDT initialized.");
 
-  try {
-    debug("Checking if input file exists...");
-    misc.verifyFileExists(args.input);
-    // misc.verifyCommandExists(args.backend);
-  } catch (error) {
-    console.error("Error: " + error.message);
+  debug("Checking if input file exists...");
+  if (!fs.existsSync(args.input)) {
+    console.log(`Error: Couldn't find input file "${args.input}".`);
     return;
   }
 
@@ -86,12 +83,6 @@ const mainCommand = (yargs) => {
       type: "string",
       default: "main.pug",
     })
-    // .option("backend", {
-    //   alias: "b",
-    //   describe: "The HTML to PDF converter to use",
-    //   default: "internal",
-    //   type: "string",
-    // })
     .option("debug", {
       alias: "d",
       desc: "Show debug and performance info",
@@ -107,11 +98,6 @@ const mainCommand = (yargs) => {
       desc: "Produce HTML for use with another program",
       type: "boolean",
     });
-  // .option("watch", {
-  //   alias: "w",
-  //   desc: "Trigger recompilation when input changes",
-  //   type: "boolean",
-  // });
 };
 
 require("yargs")

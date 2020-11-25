@@ -34,32 +34,4 @@ describe("misc", () => {
       );
     });
   });
-
-  describe("verifyFileExists", () => {
-    it("Can find package.json", () => {
-      assert.doesNotThrow(() => {
-        misc.verifyFileExists("./package.json");
-      });
-    });
-
-    it("Can't find package.yaml", () => {
-      assert.throws(() => {
-        misc.verifyFileExists("./package.yaml");
-      });
-    });
-  });
-
-  describe("verifyCommandExists", () => {
-    it("Can find passwd", () => {
-      assert.doesNotThrow(() => {
-        misc.verifyCommandExists("passwd");
-      });
-    });
-
-    it("Can't find ridiculous_fake_command_123", () => {
-      assert.throws(() => {
-        misc.verifyCommandExists("ridiculous_fake_command_123");
-      });
-    });
-  });
 });
