@@ -1,7 +1,5 @@
 const sass = require("node-sass");
 
-const dependencies = [];
-
 const filter = (text, opts) => {
   const file = opts.filename;
   const sassOptions = file.endsWith("scss") ? { file } : { data: text };
@@ -9,13 +7,10 @@ const filter = (text, opts) => {
   return sass.renderSync(sassOptions).css.toString("utf-8");
 };
 
-const filterName = "scss";
-
-const transformer = (html) => html;
-
 module.exports = {
-  dependencies,
+  dependencies: null,
   filter,
-  filterName,
-  transformer,
+  filterName: "scss",
+  name: "SASS/SCSS",
+  transformer: null,
 };

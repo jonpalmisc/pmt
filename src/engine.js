@@ -7,7 +7,7 @@ const plugins = require("./plugins");
 const prettier = require("prettier");
 const pug = require("pug");
 
-function renderFile(inputPath, opts) {
+async function renderFile(inputPath, opts) {
   inputPath = path.resolve(inputPath);
 
   // Read the input file.
@@ -28,6 +28,15 @@ function renderFile(inputPath, opts) {
   // Render the input to HTML, optionally formatting it.
   debug("Compiling...");
   let html = pug.render(input, pugOptions);
+
+  // Apply all of our plugin transformers.
+  const transformerPlugins = plugins.filter((p) => p.transformer != null);
+  for (const p of transformerPlugins) {
+    debug(`Applying transformer for ${p.name} plugin...`);
+
+    html = await p.transformer(html);
+  }
+
   if (opts.pretty) {
     debug("Formatting output...");
     html = prettier.format(html, { parser: "html" });

@@ -27,7 +27,7 @@ async function main(args) {
   }
 
   // Render the input to HTML; format it if HTML is our output format.
-  const staticHtml = engine.renderFile(args.input, { pretty: false });
+  const staticHtml = await engine.renderFile(args.input, { pretty: false });
 
   // Determine the correct output path depending on whether it was explicitly
   // provided and what type of output we are producing.
