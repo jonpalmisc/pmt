@@ -2,7 +2,7 @@ const fs = require("fs");
 const path = require("path");
 
 const debug = require("./debug");
-const filters = require("./filters");
+const plugins = require("./plugins");
 
 const prettier = require("prettier");
 const pug = require("pug");
@@ -13,6 +13,11 @@ function renderFile(inputPath, opts) {
   // Read the input file.
   debug("Reading input...");
   const input = fs.readFileSync(inputPath, { encoding: "utf-8" });
+
+  const filters = Object.assign(
+    {},
+    ...plugins.map((p) => ({ [p.filterName]: p.filter }))
+  );
 
   // Set up Pug to include our filters, among other things.
   const pugOptions = {
