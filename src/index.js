@@ -82,7 +82,7 @@ const mainCommand = (yargs) => {
     .alias("h", "help")
     .alias("v", "version")
     .positional("input", {
-      describe: "The input file to process",
+      describe: "The file to process",
       type: "string",
       default: "main.pug",
     })
@@ -93,13 +93,13 @@ const mainCommand = (yargs) => {
     //   type: "string",
     // })
     .option("debug", {
-      alias: "D",
-      desc: "Enable debug output",
+      alias: "d",
+      desc: "Show debug and performance info",
       type: "boolean",
     })
     .option("output", {
       alias: "o",
-      desc: "The desired output path",
+      desc: "Write output to a specific path",
       type: "string",
     })
     .option("html", {
