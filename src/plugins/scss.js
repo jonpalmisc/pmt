@@ -12,6 +12,6 @@ module.exports = {
   dependencies: null,
   filter,
   filterName: "scss",
-  name: "SASS/SCSS",
+  name: "SCSS",
   transformer: null,
 };
