@@ -5,6 +5,7 @@ const filter = (text, opts) => {
 };
 
 module.exports = {
+  autoEnabled: true,
   dependencies: null,
   filter,
   filterName: "markdown",

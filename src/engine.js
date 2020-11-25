@@ -2,17 +2,31 @@ const fs = require("fs");
 const path = require("path");
 
 const debug = require("./debug");
-const plugins = require("./plugins");
+const allPlugins = require("./plugins");
 
 const pug = require("pug");
 
-async function renderFile(inputPath) {
+function getPlugins(enableList) {
+  enableList = enableList.map((p) => p.toLowerCase());
+
+  const plugins = allPlugins.filter(
+    (p) => p.autoEnabled || enableList.includes(p.name.toLowerCase())
+  );
+
+  plugins.forEach((p) => debug(`Enabling ${p.name} plugin...`));
+
+  return plugins;
+}
+
+async function renderFile(inputPath, options) {
   inputPath = path.resolve(inputPath);
 
   // Read the input file.
   debug("Reading input...");
   const input = fs.readFileSync(inputPath, { encoding: "utf-8" });
 
+  // Get the default and user-enabled plugins.
+  const plugins = getPlugins(options.plugins);
   const filters = Object.assign(
     {},
     ...plugins.map((p) => ({ [p.filterName]: p.filter }))

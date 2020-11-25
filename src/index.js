@@ -24,7 +24,9 @@ async function main(args) {
   }
 
   // Render the input to HTML; format it if HTML is our output format.
-  const staticHtml = await engine.renderFile(args.input);
+  const staticHtml = await engine.renderFile(args.input, {
+    plugins: args.plugins,
+  });
 
   // Determine the correct output path depending on whether it was explicitly
   // provided and what type of output we are producing.
@@ -97,6 +99,12 @@ const mainCommand = (yargs) => {
       alias: "x",
       desc: "Produce HTML for use with another program",
       type: "boolean",
+    })
+    .option("plugins", {
+      alias: "p",
+      desc: "Enable the specified plugins",
+      type: "array",
+      default: [],
     });
 };
 
