@@ -1,13 +1,5 @@
 const mathjaxPage = require("mathjax-node-page").mjpage;
 
-const dependencies = null;
-
-const filter = null;
-
-const filterName = null;
-
-const name = "MathJax";
-
 const transformer = async (html) => {
   return new Promise((resolve) => {
     mathjaxPage(
@@ -28,9 +20,8 @@ const transformer = async (html) => {
 
 module.exports = {
   autoEnabled: false,
-  dependencies,
-  filter,
-  filterName,
-  name,
+  filter: null,
+  filterName: null,
+  name: "MathJax",
   transformer,
 };

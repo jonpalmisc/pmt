@@ -9,7 +9,6 @@ const filter = (text, opts) => {
 
 module.exports = {
   autoEnabled: true,
-  dependencies: null,
   filter,
   filterName: "scss",
   name: "SCSS",

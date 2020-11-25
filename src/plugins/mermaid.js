@@ -29,7 +29,6 @@ const transformer = async (html) => {
 
 module.exports = {
   autoEnabled: false,
-  dependencies: null,
   filter,
   filterName: "mermaid",
   name: "Mermaid",
