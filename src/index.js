@@ -34,6 +34,12 @@ async function main(args) {
     ? args.output
     : misc.replaceExt(args.input, args.html ? ".html" : ".pdf");
 
+  // If the user wants static output, write it now and exit.
+  if (args.static) {
+    fs.writeFileSync(outputPath, staticHtml);
+    return;
+  }
+
   // Get a temporary file path and write our static HTML to it.
   let tempPath = misc.getTempPath(misc.replaceExt(args.input, ".html"));
 
@@ -105,6 +111,12 @@ const mainCommand = (yargs) => {
       desc: "Enable the specified plugins",
       type: "array",
       default: [],
+    })
+    .option("static", {
+      alias: "S",
+      desc: "Skip page hydration",
+      type: "boolean",
+      implies: "html",
     });
 };
 
