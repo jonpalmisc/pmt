@@ -9,6 +9,7 @@
   "preferGlobal": true,
   "scripts": {
     "pdt": "node src/index.js",
+    "format": "prettier -w src/ test/",
     "test": "mocha"
   },
   "bin": {
@@ -23,6 +24,7 @@
     "yargs": "^16.1.1"
   },
   "devDependencies": {
-    "mocha": "^8.2.1"
+    "mocha": "^8.2.1",
+    "prettier": "^2.2.0"
   }
 }
