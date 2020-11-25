@@ -4,10 +4,9 @@ const path = require("path");
 const debug = require("./debug");
 const plugins = require("./plugins");
 
-const prettier = require("prettier");
 const pug = require("pug");
 
-async function renderFile(inputPath, opts) {
+async function renderFile(inputPath) {
   inputPath = path.resolve(inputPath);
 
   // Read the input file.
@@ -35,11 +34,6 @@ async function renderFile(inputPath, opts) {
     debug(`Applying transformer for ${p.name} plugin...`);
 
     html = await p.transformer(html);
-  }
-
-  if (opts.pretty) {
-    debug("Formatting output...");
-    html = prettier.format(html, { parser: "html" });
   }
 
   return html;
