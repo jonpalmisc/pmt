@@ -1,5 +1,6 @@
 const cp = require("child_process");
 const fs = require("fs");
+const path = require("path");
 
 const engine = require("./engine");
 const debug = require("./debug");
@@ -23,11 +24,17 @@ async function main(args) {
     return;
   }
 
+  // Read the input file.
+  debug("Reading input...");
+  const inputPath = path.resolve(args.input);
+  const pugString = fs.readFileSync(inputPath, { encoding: "utf-8" });
+
   // Attempt to dender the input to HTML; show errors and stop if needed.
-  let staticHtml;
+  let staticHtml = null;
   try {
-    staticHtml = await engine.renderFile(args.input, {
-      plugins: args.plugins,
+    staticHtml = await engine.compile(pugString, {
+      inputPath,
+      enabledPlugins: args.plugins,
     });
   } catch (error) {
     // Handle Pug-related errors a little more gracefully.

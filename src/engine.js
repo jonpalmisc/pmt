@@ -1,5 +1,4 @@
 const fs = require("fs");
-const path = require("path");
 
 const debug = require("./debug");
 const allPlugins = require("./plugins");
@@ -18,29 +17,22 @@ function getPlugins(enableList) {
   return plugins;
 }
 
-async function renderFile(inputPath, options) {
-  inputPath = path.resolve(inputPath);
-
-  // Read the input file.
-  debug("Reading input...");
-  const input = fs.readFileSync(inputPath, { encoding: "utf-8" });
-
+async function compile(pugString, options) {
   // Get the default and user-enabled plugins.
-  const plugins = getPlugins(options.plugins);
-  const filters = Object.assign(
-    {},
-    ...plugins.map((p) => ({ [p.filterName]: p.filter }))
-  );
+  const plugins = getPlugins(options.enabledPlugins);
 
   // Set up Pug to include our filters, among other things.
   const pugOptions = {
-    filename: inputPath,
-    filters,
+    filename: options.inputPath,
+    filters: Object.assign(
+      {},
+      ...plugins.map((p) => ({ [p.filterName]: p.filter }))
+    ),
   };
 
   // Render the input to HTML, optionally formatting it.
   debug("Compiling...");
-  let html = pug.render(input, pugOptions);
+  let html = pug.render(pugString, pugOptions);
 
   // Apply all of our plugin transformers.
   const transformerPlugins = plugins.filter((p) => p.transformer != null);
@@ -127,4 +119,4 @@ async function makePdf(page, outputPath, backend) {
   }
 }
 
-module.exports = { makePdf, renderFile, hydrateFile };
+module.exports = { makePdf, compile, hydrateFile };
