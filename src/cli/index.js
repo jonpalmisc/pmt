@@ -47,7 +47,5 @@ require("yargs")
     "$0 [input] [options]",
     "Create documents (and more) using Pug.",
     config,
-    async (args) => {
-      await main(args);
-    }
+    main
   ).argv;
