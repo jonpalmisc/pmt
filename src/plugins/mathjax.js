@@ -7,6 +7,7 @@ const transformer = async (html) => {
     },
     tex: {
       packages: ["base", "autoload", "require", "ams", "newcommand"],
+      inlineMath: [["$", "$"]],
     },
     "adaptors/liteDOM": {
       fontSize: 16,
