@@ -17,6 +17,7 @@
   },
   "dependencies": {
     "jsdom": "^16.4.0",
+    "katex": "^0.12.0",
     "markdown-it": "^12.0.2",
     "mathjax-node-page": "^3.2.0",
     "node-sass": "^5.0.0",
