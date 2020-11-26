@@ -2,9 +2,9 @@ const cp = require("child_process");
 const fs = require("fs");
 const path = require("path");
 
-const engine = require("./engine");
-const debug = require("./debug");
-const misc = require("./misc");
+const engine = require("../engine");
+const debug = require("../debug");
+const misc = require("../misc");
 
 const puppeteer = require("puppeteer");
 
