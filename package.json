@@ -16,6 +16,7 @@
     "pdt": "src/index.js"
   },
   "dependencies": {
+    "esm": "^3.2.25",
     "jsdom": "^16.4.0",
     "katex": "^0.12.0",
     "markdown-it": "^12.0.2",
