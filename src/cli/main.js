@@ -6,13 +6,6 @@ const engine = require("../engine");
 const debug = require("../debug");
 const misc = require("../misc");
 
-const puppeteer = require("puppeteer");
-
-const puppeteerConfig = {
-  headless: true,
-  args: ["--disable-translate", "--disable-extensions", "--disable-sync"],
-};
-
 async function main(args) {
   global.pdtDebug = args.debug;
 
@@ -66,46 +59,35 @@ async function main(args) {
     return;
   }
 
-  // Get a temporary file path and write our static HTML to it.
-  let tempPath = misc.getTempPath(misc.replaceExt(args.input, ".html"));
-
-  debug(`Writing compiled HTML to disk temporarily... (${tempPath})`);
-  fs.writeFileSync(tempPath, staticHtml);
-
-  // Start a headless browser and create a new page.
-  debug("Initializing headless browser...");
-  const browser = await puppeteer.launch(puppeteerConfig);
-  const page = await browser.newPage();
-
   // Attempt to load the static HTML into the page and hydrate it.
   try {
-    await engine.hydrateFile(page, tempPath);
+    // Get a temporary file path and write our static HTML to it.
+    const tempPath = misc.getTempPath(misc.replaceExt(inputPath, ".html"));
+    const hydratedPage = await engine.hydrate(staticHtml, tempPath);
+
+    if (args.html) {
+      const finalHtml = await hydratedPage.content();
+
+      debug("Closing browser and saving hydrated HTML...");
+      fs.writeFileSync(outputPath, finalHtml);
+    } else {
+      // Save hydrated page to PDF.
+      debug("Creating PDF via Puppeteer...");
+      await hydratedPage.pdf({
+        path: outputPath,
+        displayHeaderFooter: false,
+        printBackground: true,
+      });
+
+      // Remove temporary HTML and close the browser.
+      debug(`Removing temporary HTML file... (${tempPath})`);
+      fs.unlinkSync(tempPath);
+    }
   } catch (error) {
     console.error("Error: " + error.message);
-    return;
   }
 
-  if (args.html) {
-    const finalHtml = await page.content();
-
-    debug("Closing browser and saving hydrated HTML...");
-    fs.writeFileSync(outputPath, finalHtml);
-    browser.close();
-    return;
-  }
-
-  try {
-    await engine.makePdf(page, outputPath, "internal");
-  } catch (error) {
-    console.error("Error: " + error.message);
-  }
-
-  // Remove temporary HTML and close the browser.
-  debug(`Removing temporary HTML file... (${tempPath})`);
-  fs.unlinkSync(tempPath);
-  browser.close();
-
-  debug("Done!");
+  await engine.shutdown();
 }
 
 module.exports = main;

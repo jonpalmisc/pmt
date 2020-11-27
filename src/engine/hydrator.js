@@ -1,4 +1,15 @@
+const fs = require("fs");
+
 const debug = require("../debug");
+
+const puppeteer = require("puppeteer");
+
+const puppeteerConfig = {
+  headless: true,
+  args: ["--disable-translate", "--disable-extensions", "--disable-sync"],
+};
+
+let browser = null;
 
 // This is cursed.
 async function waitForIdle(page, maxDuration, maxRequests = 0) {
@@ -46,32 +57,33 @@ async function waitForIdle(page, maxDuration, maxRequests = 0) {
   }
 }
 
-async function hydrateFile(page, filePath) {
-  debug("Hydrating static HTML...");
+async function hydrate(staticHtml, tempPath, timeout) {
+  debug(`Writing compiled HTML to disk temporarily... (${tempPath})`);
+  fs.writeFileSync(tempPath, staticHtml);
 
-  await page.goto("file:" + filePath, {
+  // Initialize our browser if it isn't already. This will become relevant once
+  // file watching is eventually implemented to avoid creating 2+ browsers.
+  if (browser == null) {
+    debug("Initializing headless browser...");
+    browser = await puppeteer.launch(puppeteerConfig);
+  }
+
+  const page = await browser.newPage();
+
+  debug("Hydrating static HTML...");
+  await page.goto("file:" + tempPath, {
     waitUntil: ["load", "domcontentloaded"],
-    timeout: 30 * 1000,
+    timeout: timeout ? timeout : 30 * 1000,
   });
 
   await waitForIdle(page, 200);
+
+  return page;
 }
 
-async function makePdfInternal(page, outputPath) {
-  debug("Creating PDF via Puppeteer...");
-  await page.pdf({
-    path: outputPath,
-    displayHeaderFooter: false,
-    printBackground: true,
-  });
+async function shutdown() {
+  debug("Shutting down browser...");
+  await browser.close();
 }
 
-async function makePdf(page, outputPath, backend) {
-  if (backend == "internal") {
-    await makePdfInternal(page, outputPath);
-  } else {
-    throw new Error(`Backend "${backend}" is not supported.`);
-  }
-}
-
-module.exports = { hydrateFile, makePdf };
+module.exports = { hydrate, shutdown };

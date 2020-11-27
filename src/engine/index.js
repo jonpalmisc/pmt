@@ -1,4 +1,4 @@
 const { compile } = require("./compiler");
-const { makePdf, hydrateFile } = require("./hydrator");
+const { hydrate, shutdown } = require("./hydrator");
 
-module.exports = { makePdf, compile, hydrateFile };
+module.exports = { compile, hydrate, shutdown };
