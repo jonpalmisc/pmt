@@ -9,7 +9,7 @@
   "preferGlobal": true,
   "scripts": {
     "pdt": "node src/index.js",
-    "format": "prettier -w src/ test/",
+    "format": "prettier -w include/ src/ test/",
     "lint": "eslint src",
     "test": "mocha"
   },
