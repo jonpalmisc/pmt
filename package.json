@@ -13,9 +13,7 @@
     "lint": "eslint src",
     "test": "mocha"
   },
-  "bin": {
-    "pdt": "src/index.js"
-  },
+  "bin": "src/index.js",
   "dependencies": {
     "esm": "^3.2.25",
     "jsdom": "^16.4.0",
