@@ -6,6 +6,22 @@ const engine = require("../engine");
 const debug = require("../debug");
 const misc = require("../misc");
 
+function handleCompileError(error) {
+  // Handle Pug-related errors a little more gracefully.
+  if (error.code && error.code.startsWith("PUG")) {
+    console.error(
+      `Error: Failed to compile Pug. (${error.msg}, ${error.filename}:${error.line})`
+    );
+
+    // Show hint for missing filter errors.
+    if (error.code == "PUG:UNKNOWN_FILTER") {
+      console.error("Hint: Did you forget to enable a plugin?");
+    }
+  } else {
+    console.error("Error: " + error.message);
+  }
+}
+
 async function main(args) {
   global.pdtDebug = args.debug;
 
@@ -30,20 +46,7 @@ async function main(args) {
       enabledPlugins: args.plugins,
     });
   } catch (error) {
-    // Handle Pug-related errors a little more gracefully.
-    if (error.code && error.code.startsWith("PUG")) {
-      console.error(
-        `Error: Failed to compile Pug. (${error.msg}, ${error.filename}:${error.line})`
-      );
-
-      // Show hint for missing filter errors.
-      if (error.code == "PUG:UNKNOWN_FILTER") {
-        console.error("Hint: Did you forget to enable a plugin?");
-      }
-    } else {
-      console.error("Error: " + error.message);
-    }
-
+    handleCompileError(error);
     return;
   }
 
@@ -68,7 +71,7 @@ async function main(args) {
     if (args.html) {
       const finalHtml = await hydratedPage.content();
 
-      debug("Closing browser and saving hydrated HTML...");
+      debug("Saving hydrated HTML...");
       fs.writeFileSync(outputPath, finalHtml);
     } else {
       // Save hydrated page to PDF.
