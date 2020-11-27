@@ -1,10 +1,15 @@
+const path = require("path");
 const sass = require("sass");
 
-const filter = (text, opts) => {
-  const file = opts.filename;
-  const sassOptions = file.endsWith("scss") ? { file } : { data: text };
+const sassOptions = {
+  includePaths: [path.join(__dirname, "../../include")],
+};
 
-  return sass.renderSync(sassOptions).css.toString("utf-8");
+const filter = (data, { filename: file }) => {
+  const opts = file.endsWith("scss")
+    ? { ...sassOptions, file }
+    : { ...sassOptions, data };
+  return sass.renderSync(opts).css.toString("utf-8");
 };
 
 module.exports = {
