@@ -83,9 +83,13 @@ async function main(args) {
         printBackground: true,
       });
 
-      // Remove temporary HTML and close the browser.
-      debug(`Removing temporary HTML file... (${tempPath})`);
-      fs.unlinkSync(tempPath);
+      // Remove (or keep if requested) the temporary HTML file.
+      if (!args["keep-temp"]) {
+        debug(`Removing temporary HTML file... (${tempPath})`);
+        fs.unlinkSync(tempPath);
+      } else {
+        debug(`Keeping temporary HTML output per request... (${tempPath})`);
+      }
     }
   } catch (error) {
     console.error("Error: " + error.message);

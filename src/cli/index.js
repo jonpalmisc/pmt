@@ -14,6 +14,11 @@ const config = (yargs) => {
       desc: "Show debug and performance info",
       type: "boolean",
     })
+    .option("keep-temp", {
+      alias: "K",
+      desc: "Disable removal of temporary files",
+      type: "boolean",
+    })
     .option("output", {
       alias: "o",
       desc: "Write output to a specific path",
