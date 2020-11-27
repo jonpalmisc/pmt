@@ -7,7 +7,6 @@ const config = (yargs) => {
     .positional("input", {
       describe: "The file to process",
       type: "string",
-      default: "main.pug",
     })
     .option("debug", {
       alias: "d",
@@ -55,7 +54,7 @@ require("yargs")
   })
   .version()
   .command(
-    "$0 [input] [options]",
+    "$0 <input> [options]",
     "Create documents (and more) using Pug.",
     config,
     main
