@@ -40,6 +40,12 @@ const config = (yargs) => {
       desc: "Skip page hydration",
       type: "boolean",
       implies: "html",
+    })
+    .option("timeout", {
+      alias: "t",
+      desc: "Maximum time allowed (in seconds) for hydration",
+      type: "number",
+      default: 15,
     });
 };
 

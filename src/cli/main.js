@@ -66,7 +66,11 @@ async function main(args) {
   try {
     // Get a temporary file path and write our static HTML to it.
     const tempPath = misc.getTempPath(misc.replaceExt(inputPath, ".html"));
-    const hydratedPage = await engine.hydrate(staticHtml, tempPath);
+    const hydratedPage = await engine.hydrate(
+      staticHtml,
+      tempPath,
+      args.timeout
+    );
 
     if (args.html) {
       const finalHtml = await hydratedPage.content();

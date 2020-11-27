@@ -70,10 +70,13 @@ async function hydrate(staticHtml, tempPath, timeout) {
 
   const page = await browser.newPage();
 
-  debug("Hydrating static HTML...");
+  // Convert timeout from seconds to milliseconds.
+  timeout *= 1000;
+
+  debug(`Hydrating static HTML... (max ${timeout} ms)`);
   await page.goto("file:" + tempPath, {
     waitUntil: ["load", "domcontentloaded"],
-    timeout: timeout ? timeout : 30 * 1000,
+    timeout,
   });
 
   await waitForIdle(page, 200);
