@@ -58,6 +58,7 @@ async function main(args) {
 
   // If the user wants static output, write it now and exit.
   if (args.static) {
+    debug("Saving static HTML...");
     fs.writeFileSync(outputPath, staticHtml);
     return;
   }
