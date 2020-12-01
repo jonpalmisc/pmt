@@ -5,7 +5,7 @@
   "main": "src/index.js",
   "repository": "https://github.com/jonpalmisc/pmt",
   "author": "Jon Palmisciano @jonpalmisc",
-  "license": "MIT",
+  "license": "GPL-3.0-only",
   "preferGlobal": true,
   "scripts": {
     "pmt": "node src/index.js",
