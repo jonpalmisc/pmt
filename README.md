@@ -86,8 +86,8 @@ style
 # Extra plugins
 
 The plugins in the sections below are also included with a standard install,
-but must be manually enabled using the `-p` flag. See the usage information for
-more details.
+but are not enabled by default.  You can enable them via the `-p` flag. See the
+usage information for more details.
 
 ## MathJax
 
