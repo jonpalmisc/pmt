@@ -1,8 +1,6 @@
 # PMT: Pug Media Tool
 
-> Create PDF-based documents (and more) using Pug.
-
-PMT is a robust solution for creating PDF-based documents (and more) using Pug.
+PMT is a robust solution for creating PDF media with Pug.
 
 # Motivation
 
