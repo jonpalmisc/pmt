@@ -1,14 +1,14 @@
 {
-  "name": "pdt",
+  "name": "pmt",
   "version": "0.1.0",
-  "description": "A toolkit for creating documents using Pug.",
+  "description": "A robust solution for creating PDF media with Pug.",
   "main": "src/index.js",
-  "repository": "https://github.com/jonpalmisc/pdt",
+  "repository": "https://github.com/jonpalmisc/pmt",
   "author": "Jon Palmisciano @jonpalmisc",
   "license": "MIT",
   "preferGlobal": true,
   "scripts": {
-    "pdt": "node src/index.js",
+    "pmt": "node src/index.js",
     "format": "prettier -w include/ src/ test/",
     "lint": "eslint src",
     "test": "mocha"
