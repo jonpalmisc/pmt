@@ -1,7 +1,22 @@
+@page {
+  margin: 1in;
+  size: 8.5in 11in;
+}
+
 * {
   box-sizing: border-box;
 }
 
+html {
+  font-size: 10pt;
+
+  margin: 0;
+  padding: 0;
+}
+
 body {
   hyphens: auto;
+
+  margin: 0;
+  padding: 0;
 }
