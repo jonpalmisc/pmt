@@ -1,6 +1,7 @@
 # PMT: Pug Media Tool
 
-PMT is a robust solution for creating PDF media with Pug.
+PMT is a robust solution for creating PDF media with
+[Pug](https://pugjs.org/api/getting-started.html).
 
 # Motivation
 
@@ -31,9 +32,10 @@ $ pmt <file>
 This will process your input file (Pug) and produce a PDF adjacent to it using
 the internal (Chromium-based) PDF engine.
 
-If you would like to use an alternate HTML-to-PDF engine such as Prince or
-Weasyprint, you can instruct PMT to produce HTML output instead with the `-x`
-or `--html` flags:
+If you would like to use an alternate HTML-to-PDF engine such as
+[Prince](https://www.princexml.com/) or [WeasyPrint](https://weasyprint.org/),
+you can instruct PMT to produce HTML output instead with the `-x` or `--html`
+flags:
 
 ```
 $ pmt -x <file>
@@ -109,6 +111,6 @@ diagrams in the body of a `:mermaid` filter:
     A[Start] --> B[End]
 ```
 
-## License
+# License
 
 Copyright &copy; 2020 Jon Palmisciano. See LICENSE.txt for more information.
