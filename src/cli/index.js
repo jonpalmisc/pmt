@@ -55,7 +55,7 @@ require("yargs")
   .version()
   .command(
     "$0 <input> [options]",
-    "Create documents (and more) using Pug.",
+    "A robust solution for creating PDF media with Pug.",
     config,
     main
   ).argv;
