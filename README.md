@@ -1,7 +1,10 @@
 # PMT: Pug Media Tool
 
-PMT is a robust solution for creating PDF media with
+> PMT is a robust solution for creating PDF media with
 [Pug](https://pugjs.org/api/getting-started.html).
+
+[![Version](https://img.shields.io/npm/v/@jonpalmisc/pmt)](https://www.npmjs.com/package/@jonpalmisc/pmt)
+[![License](https://img.shields.io/npm/l/@jonpalmisc/pmt)](https://www.npmjs.com/package/@jonpalmisc/pmt)
 
 # Motivation
 
