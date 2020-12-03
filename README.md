@@ -114,6 +114,9 @@ diagrams in the body of a `:mermaid` filter:
     A[Start] --> B[End]
 ```
 
+**Hint:** You must explicitly set your document's doctype (`doctype html`),
+otherwise Mermaid may not work as expected.
+
 # License
 
 Copyright &copy; 2020 Jon Palmisciano. See LICENSE.txt for more information.
