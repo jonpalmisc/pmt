@@ -1,0 +1,24 @@
+@import "std/base";
+
+h1,
+h2,
+h3 {
+  line-height: 0.75;
+  margin-bottom: 0;
+
+  &:not(:first-child) {
+    padding-top: 0.25em;
+  }
+}
+
+h1 {
+  font-size: 1.73em;
+}
+
+h2 {
+  font-size: 1.44em;
+}
+
+h3 {
+  font-size: 1.2em;
+}
