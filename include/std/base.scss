@@ -9,6 +9,7 @@
 
 html {
   font-size: 10pt;
+  line-height: 1.3;
 
   margin: 0;
   padding: 0;
@@ -16,7 +17,14 @@ html {
 
 body {
   hyphens: auto;
+  text-align: justify;
 
   margin: 0;
   padding: 0;
+}
+
+p,
+li {
+  orphans: 2;
+  widows: 2;
 }
