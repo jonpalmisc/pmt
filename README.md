@@ -46,6 +46,18 @@ $ pmt -x <file>
 
 For advanced usage, use the `-h` or `--help` flags for more information.
 
+# Examples
+
+One thing PMT is sorely lacking is example documents, etc. While they are not
+written in Pug and do not leverage PMT's syntax, the
+[PrinceXML Samples](https://www.princexml.com/samples/) and
+[WeasyPrint Samples](https://weasyprint.org/samples/) should serve to
+demonstrate the level of visual fidelity PMT is capable of, as they utilize
+similar technology. 
+
+_I aim to create some examples and add them to the repo soon! Unfortunately,
+most of my existing work done in PMT is not publicly-sharable._
+
 # Default plugins
 
 A handful of "plugins" are included by default. You can learn more about them
