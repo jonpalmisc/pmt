@@ -2,7 +2,7 @@ const os = require("os");
 const path = require("path");
 
 function getTempPath(filePath) {
-  return path.join(os.tmpdir(), "pdtb_" + path.basename(filePath));
+  return path.join(os.tmpdir(), "pmt_" + path.basename(filePath));
 }
 
 // https://github.com/gulpjs/replace-ext/blob/master/index.js

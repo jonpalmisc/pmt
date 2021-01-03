@@ -22,9 +22,9 @@ function handleCompileError(error) {
 }
 
 async function main(args) {
-  global.pdtDebug = args.debug;
+  global.pmtDebug = args.debug;
 
-  debug("PDT initialized.");
+  debug("PMT initialized.");
 
   debug("Checking if input file exists...");
   if (!fs.existsSync(args.input)) {
