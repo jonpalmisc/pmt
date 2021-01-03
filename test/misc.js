@@ -4,17 +4,17 @@ const misc = require("../src/misc");
 
 describe("misc", () => {
   describe("getTempPath", () => {
-    it("Returns /tmp/pdtb_example.ext for example.ext", () => {
+    it("Returns /tmp/pmt_example.ext for example.ext", () => {
       assert.strictEqual(
         misc.getTempPath("example.ext"),
-        "/tmp/pdtb_example.ext"
+        "/tmp/pmt_example.ext"
       );
     });
 
-    it("Returns /tmp/pdtb_example.ext for /home/user/example.ext", () => {
+    it("Returns /tmp/pmt_example.ext for /home/user/example.ext", () => {
       assert.strictEqual(
         misc.getTempPath("/home/user/example.ext"),
-        "/tmp/pdtb_example.ext"
+        "/tmp/pmt_example.ext"
       );
     });
   });
