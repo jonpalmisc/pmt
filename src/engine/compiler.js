@@ -1,3 +1,5 @@
+const path = require("path");
+
 const pug = require("pug");
 
 const allPlugins = require("../plugins");
@@ -22,6 +24,7 @@ async function compile(pugString, options) {
   // Set up Pug to include our filters, among other things.
   const pugOptions = {
     filename: options.inputPath,
+    basedir: path.join(__dirname, "../../include"),
     filters: Object.assign(
       {},
       ...plugins.map((p) => ({ [p.filterName]: p.filter }))
