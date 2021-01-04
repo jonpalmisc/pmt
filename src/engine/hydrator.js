@@ -57,10 +57,7 @@ async function waitForIdle(page, maxDuration, maxRequests = 0) {
   }
 }
 
-async function hydrate(staticHtml, tempPath, timeout) {
-  debug(`Writing compiled HTML to disk temporarily... (${tempPath})`);
-  fs.writeFileSync(tempPath, staticHtml);
-
+async function hydrate(staticHtml, filePath, timeout) {
   // Initialize our browser if it isn't already. This will become relevant once
   // file watching is eventually implemented to avoid creating 2+ browsers.
   if (browser == null) {
@@ -73,8 +70,11 @@ async function hydrate(staticHtml, tempPath, timeout) {
   // Convert timeout from seconds to milliseconds.
   timeout *= 1000;
 
+  // Needed to make sure relative paths work correctly.
+  await page.goto(filePath);
+
   debug(`Hydrating static HTML... (max ${timeout} ms)`);
-  await page.goto("file:" + tempPath, {
+  await page.setContent(staticHtml, {
     waitUntil: ["load", "domcontentloaded"],
     timeout,
   });

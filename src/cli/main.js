@@ -65,10 +65,9 @@ async function main(args) {
   // Attempt to load the static HTML into the page and hydrate it.
   try {
     // Get a temporary file path and write our static HTML to it.
-    const tempPath = misc.getTempPath(misc.replaceExt(inputPath, ".html"));
     const hydratedPage = await engine.hydrate(
       staticHtml,
-      tempPath,
+      "file:" + inputPath,
       args.timeout
     );
 
@@ -85,14 +84,6 @@ async function main(args) {
         displayHeaderFooter: false,
         printBackground: true,
       });
-
-      // Remove (or keep if requested) the temporary HTML file.
-      if (!args["keep-temp"]) {
-        debug(`Removing temporary HTML file... (${tempPath})`);
-        fs.unlinkSync(tempPath);
-      } else {
-        debug(`Keeping temporary HTML output per request... (${tempPath})`);
-      }
     }
   } catch (error) {
     console.error("Error: " + error.message);
