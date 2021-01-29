@@ -11,6 +11,9 @@ const transformer = async (html) => {
     "https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css"
   );
 
+  const fontSizeFix = dom.window.document.createElement("style");
+  fontSizeFix.innerHTML = ".katex { font-size: 1.1em;  }";
+
   // Create the main dependency script.
   const katexScript = dom.window.document.createElement("script");
   katexScript.setAttribute(
@@ -31,6 +34,7 @@ const transformer = async (html) => {
 
   // Add the scripts to the DOM.
   dom.window.document.head.appendChild(cssLink);
+  dom.window.document.head.appendChild(fontSizeFix);
   dom.window.document.body.appendChild(katexScript);
   dom.window.document.body.appendChild(autoLoadScript);
 
