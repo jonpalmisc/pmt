@@ -129,6 +129,11 @@ diagrams in the body of a `:mermaid` filter:
 **Hint:** You must explicitly set your document's doctype (`doctype html`),
 otherwise Mermaid may not work as expected.
 
+## Smart quotes
+
+The smart quotes plugin will automatically replace "dumb quotes" with
+typographically correct quote characters.
+
 # License
 
 Copyright &copy; 2020 Jon Palmisciano. See LICENSE.txt for more information.
