@@ -134,6 +134,12 @@ otherwise Mermaid may not work as expected.
 The smart quotes plugin will automatically replace "dumb quotes" with
 typographically correct quote characters.
 
+## Page polyfill
+
+Chrome doesn't support some of the more fancy paged CSS features, but you can
+enable them through a polyfill with the `pages` plugin, which uses Paged.js
+under the hood.
+
 # License
 
 Copyright &copy; 2020 Jon Palmisciano. See LICENSE.txt for more information.
