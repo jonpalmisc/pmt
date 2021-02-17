@@ -4,6 +4,7 @@ const markdown = require("./markdown");
 const mermaid = require("./mermaid");
 const mathjax = require("./mathjax");
 const pages = require("./pages");
+const prism = require("./prism");
 const quotes = require("./quotes");
 const slides = require("./slides");
 const scss = require("./scss");
@@ -15,6 +16,7 @@ module.exports = [
   mathjax,
   mermaid,
   pages,
+  prism,
   quotes,
   slides,
   scss,
