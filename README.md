@@ -134,6 +134,15 @@ otherwise Mermaid may not work as expected.
 The smart quotes plugin will automatically replace "dumb quotes" with
 typographically correct quote characters.
 
+## Syntax highlighting
+
+There are two built-in plugins for syntax highlighting: one for Highlight.js
+and one for Prism.js, named `highlight` and `prism`, respectively. If you
+enable these plugins, **you must** use the default highlighting stylesheet
+(found in the include folder) **or** bring your own. Otherwise, it will appear
+as if nothing is happening! See the documentation for each highlighter for more
+info on customization.
+
 ## Page polyfill
 
 Chrome doesn't support some of the more fancy paged CSS features, but you can
