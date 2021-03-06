@@ -1,6 +1,6 @@
 {
   "name": "@jonpalmisc/pmt",
-  "version": "1.6.2-dev",
+  "version": "1.6.3-dev",
   "description": "A robust solution for creating PDF media with Pug.",
   "main": "src/index.js",
   "repository": "https://github.com/jonpalmisc/pmt",
