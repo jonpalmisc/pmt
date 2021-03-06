@@ -83,6 +83,7 @@ async function main(args) {
         path: outputPath,
         displayHeaderFooter: false,
         printBackground: true,
+        preferCSSPageSize: true,
       });
     }
   } catch (error) {
